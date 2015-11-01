@@ -359,6 +359,20 @@ public class Hand extends HandDomainModel {
 
 	}
 
+	public static Hand PickBestHand(ArrayList<Hand> Hands)
+	{
+		Hand currentWinningHand = Hands.get(0);
+		currentWinningHand.EvalHand();
+		for(Hand hand: Hands){
+			int compareResult = 0;
+			compareResult = HandRank.compare(hand, currentWinningHand);
+			if (compareResult < 0) {
+				currentWinningHand = hand;
+			} 
+		}
+		return currentWinningHand;
+	}
+	
 	/**
 	 * Custom sort to figure the best hand in an array of hands
 	 */
@@ -384,54 +398,58 @@ public class Hand extends HandDomainModel {
 				return result;
 			}
 
-		
-			if (h2.getKicker().get(eCardNo.FirstCard.getCardNo()) != null)
-			{
-				if (h1.getKicker().get(eCardNo.FirstCard.getCardNo()) != null)
-				{
-					result = h2.getKicker().get(eCardNo.FirstCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.FirstCard.getCardNo()).getRank().getRank();
-				}
-				if (result != 0)
-				{
-					return result;
-				}
-			}
+			if (h1.getKicker() != null && h2.getKicker() != null){
+				int k1 = h1.getKicker().size();
+				int k2 = h2.getKicker().size();
 			
-			if (h2.getKicker().get(eCardNo.SecondCard.getCardNo()) != null)
-			{
-				if (h1.getKicker().get(eCardNo.SecondCard.getCardNo()) != null)
+				if (k1 > 0)
 				{
-					result = h2.getKicker().get(eCardNo.SecondCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.SecondCard.getCardNo()).getRank().getRank();
+					if (k2 > 0)
+					{
+						result = h2.getKicker().get(eCardNo.FirstCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.FirstCard.getCardNo()).getRank().getRank();
+					}
+					if (result != 0)
+					{
+						return result;
+					}
 				}
-				if (result != 0)
+
+				if (k1 > 1)
 				{
-					return result;
+					if (k2 > 1)
+					{
+						result = h2.getKicker().get(eCardNo.SecondCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.SecondCard.getCardNo()).getRank().getRank();
+					}
+					if (result != 0)
+					{
+						return result;
+					}
 				}
+				if (k1 > 2)
+				{
+					if (k2 > 2)
+					{
+						result = h2.getKicker().get(eCardNo.ThirdCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.ThirdCard.getCardNo()).getRank().getRank();
+					}
+					if (result != 0)
+					{
+						return result;
+					}
+				}
+
+				if (k1 > 3)
+				{
+					if (k2 > 3)
+					{
+						result = h2.getKicker().get(eCardNo.FourthCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.FourthCard.getCardNo()).getRank().getRank();
+					}
+					if (result != 0)
+					{
+						return result;
+					}
+				}		
 			}
-			if (h2.getKicker().get(eCardNo.ThirdCard.getCardNo()) != null)
-			{
-				if (h1.getKicker().get(eCardNo.ThirdCard.getCardNo()) != null)
-				{
-					result = h2.getKicker().get(eCardNo.ThirdCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.ThirdCard.getCardNo()).getRank().getRank();
-				}
-				if (result != 0)
-				{
-					return result;
-				}
-			}
-			
-			if (h2.getKicker().get(eCardNo.FourthCard.getCardNo()) != null)
-			{
-				if (h1.getKicker().get(eCardNo.FourthCard.getCardNo()) != null)
-				{
-					result = h2.getKicker().get(eCardNo.FourthCard.getCardNo()).getRank().getRank() - h1.getKicker().get(eCardNo.FourthCard.getCardNo()).getRank().getRank();
-				}
-				if (result != 0)
-				{
-					return result;
-				}
-			}			
-				return 0;
+			return 0;
 		}
 	};
 }

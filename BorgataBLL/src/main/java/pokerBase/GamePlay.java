@@ -18,6 +18,8 @@ public class GamePlay extends GamePlayDomainModel {
 	
 	private Deck GameDeck = null;
 	
+	private int nbrCommunityCards;
+	
 	public GamePlay(Rule rle)
 	{
 		this.setGameID(UUID.randomUUID());
@@ -25,6 +27,7 @@ public class GamePlay extends GamePlayDomainModel {
 		this.setMaxNbrOfPlayers(rle.GetMaxNumberOfPlayers());
 		this.setNbrOfJokers(rle.GetNumberOfJokers());
 		this.setWildCards(rle.GetRuleCards());
+		this.setNbrCommunityCards(rle.GetCommunityCardsCount());
 	}
 
 	public ArrayList<Player> getGamePlayers() {
@@ -48,6 +51,14 @@ public class GamePlay extends GamePlayDomainModel {
 		GameDeck = gameDeck;
 	}
 	
+	public void setNbrCommunityCards(int nbrCommunityCards) {
+		this.nbrCommunityCards = nbrCommunityCards;
+	}
+	
+	public int getNbrCommunityCards() {
+		return nbrCommunityCards;
+	}
+
 	public void addGamePlayPlayerHand(GamePlayPlayerHand GPPH)
 	{
 		GamePlayerHand.add(GPPH);
